@@ -62,7 +62,7 @@ alu-AirBnB_clone/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/alu-AirBnB_clone.git
+   git clone https://github.com/uoriane/alu-AirBnB_clone.git
    cd alu-AirBnB_clone
    ```
 
