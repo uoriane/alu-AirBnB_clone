@@ -2,6 +2,7 @@
 import json
 from models.base_model import BaseModel
 
+
 class FileStorage:
     """Serializes instances to a JSON file & deserializes back"""
 
@@ -35,4 +36,3 @@ class FileStorage:
                 # If you have other classes, add them here
         except FileNotFoundError:
             pass
-
