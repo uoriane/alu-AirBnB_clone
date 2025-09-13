@@ -3,5 +3,6 @@ from models.base_model import BaseModel
 
 
 class City(BaseModel):
+    """City class for AirBnB clone project"""
     state_id = ""
     name = ""
