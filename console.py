@@ -16,8 +16,8 @@ class HBNBCommand(cmd.Cmd):
     
     prompt = "(hbnb) "
     
-    def __init__(self):
-        super().__init__()
+    def __init__(self, stdin=None, stdout=None):
+        super().__init__(stdin=stdin, stdout=stdout)
         self.classes = {
             'BaseModel': BaseModel,
             'User': User,
