@@ -1,4 +1,8 @@
 #!/usr/bin/python3
+"""
+AirBnB Clone Project - File Storage
+JSON-based persistence layer for model objects
+"""
 import json
 from models.base_model import BaseModel
 from models.user import User
@@ -10,46 +14,46 @@ from models.review import Review
 
 
 class FileStorage:
-    """Serializes instances to a JSON file & deserializes back"""
+    """
+    Handles serialization and deserialization of objects to/from JSON
+    """
 
-    __file_path = "file.json"
+    __file_path = 'file.json'
     __objects = {}
+    className = {'BaseModel': BaseModel,
+                 'User': User,
+                 'State': State,
+                 'City': City,
+                 'Amenity': Amenity,
+                 'Place': Place,
+                 'Review': Review}
 
     def all(self):
-        """Return the dictionary of all objects"""
-        return self.__objects
+        """Return all stored objects"""
+        return FileStorage.__objects
 
     def new(self, obj):
-        """Add new object to __objects"""
-        key = f"{obj.__class__.__name__}.{obj.id}"
-        self.__objects[key] = obj
+        """Add new object to storage with class.id key"""
+        key = '{}.{}'.format(obj.__class__.__name__, obj.id)
+        FileStorage.__objects[key] = obj
 
     def save(self):
-        """Serialize __objects to JSON file"""
-        obj_dict = {key: obj.to_dict() for key, obj in self.__objects.items()}
-        with open(self.__file_path, "w") as f:
-            json.dump(obj_dict, f)
+        """Serialize all objects to JSON file"""
+        new_dict = {}
+        for key, obj in FileStorage.__objects.items():
+            new_dict[key] = obj.to_dict()
+        with open(FileStorage.__file_path, 'w') as f:
+            f.write(json.dumps(new_dict))
 
     def reload(self):
-        """Deserialize JSON file to __objects"""
+        """Load objects from JSON file"""
         try:
-            with open(self.__file_path, "r") as f:
-                obj_dict = json.load(f)
-            for key, val in obj_dict.items():
-                class_name = val["__class__"]
-                if class_name == "BaseModel":
-                    self.__objects[key] = BaseModel(**val)
-                elif class_name == "User":
-                    self.__objects[key] = User(**val)
-                elif class_name == "State":
-                    self.__objects[key] = State(**val)
-                elif class_name == "City":
-                    self.__objects[key] = City(**val)
-                elif class_name == "Amenity":
-                    self.__objects[key] = Amenity(**val)
-                elif class_name == "Place":
-                    self.__objects[key] = Place(**val)
-                elif class_name == "Review":
-                    self.__objects[key] = Review(**val)
+            with open(FileStorage.__file_path, 'r') as f:
+                f_contents = f.read()
+                dict_obj_dicts = json.loads(f_contents)
+            for key in dict_obj_dicts.keys():
+                obj_dict = dict_obj_dicts[key]
+                FileStorage.__objects[key] = FileStorage\
+                           .className[key.split('.')[0]](**obj_dict)
         except FileNotFoundError:
             pass

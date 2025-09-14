@@ -1,9 +1,17 @@
 #!/usr/bin/python3
+"""
+AirBnB Clone Project - Place Model
+Represents rental properties
+"""
 from models.base_model import BaseModel
 
 
 class Place(BaseModel):
-    """Place class for AirBnB clone project"""
+    """
+    Place model for rental properties
+    Inherits all functionality from BaseModel
+    """
+
     city_id = ""
     user_id = ""
     name = ""
